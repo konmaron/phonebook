@@ -13,11 +13,12 @@ export default function App() {
       <Header/>
       <hr className='app-hr'/>
       <Switch>
-        <Route path='/list' component={ContactList}/>
-        <Route path='/list/detailed/:id' component={DetailedContact}/>
-        <Route path='/addContact' component={AddContact}/>
-        <Route path='/editContact/:id/:name/:lastName/:phone/:email/:city/:desc' component={EditContact}/>
-        <Route path='**' render={() => <h1>Error</h1>}/>
+          <Route path='/' component={ContactList}/>
+          <Route path='/list' component={ContactList}/>
+          <Route path='/list/detailed/:id' component={DetailedContact}/>
+          <Route path='/addContact' component={AddContact}/>
+          <Route path='/editContact/:id/:name/:lastName/:phone/:email/:city/:desc' component={EditContact}/>
+          <Route path='**' render={() => <h1>Error</h1>}/>
       </Switch>
     </>
   );
