@@ -1,0 +1,44 @@
+input, textarea{
+    width: 380px;
+    height: 30px;
+    margin: 10px;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: #4CAF50;
+}
+
+textarea{
+    resize: none;
+}
+
+input:focus, textarea:focus{
+    outline: none;
+    box-shadow: 0 0 10px #4CAF50;
+}
+
+input:active{
+    border-color: #4CAF50;
+}
+
+.danger{
+    border: 2px solid red;
+}
+
+.danger:focus{
+    outline: none;
+    box-shadow: 0 0 10px red;
+}
+
+button{
+    border: 1px solid green;
+    background-color:  #4CAF50;
+    color: white;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    margin-right: 10px;
+    cursor: pointer;
+}

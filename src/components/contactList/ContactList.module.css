@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    width: 800px;
+}
+
+.contact-list{
+    width: 400px;
+    height: 500px;
+    overflow-y: hidden;
+}
+
+ul{
+    padding: 0;
+    margin: 10px 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+li{
+    list-style: none;
+    margin-right: 20px;
+}
+
+.name-class-list, .phone-class-list{
+    color: black;
+    margin: 0 15px;
+    padding: 5px;
+}
+
+.hr-class-list{
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+
+li:hover{
+    background-color: rgba(76, 175, 80, 0.5);
+}
+
+.div-detailed-contact{
+    margin: 6px 0 0 10px;
+}
+
+.active{
+    background-color: rgba(76, 175, 80, 0.5);
+}
+
