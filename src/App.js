@@ -13,6 +13,7 @@ export default function App() {
       <Header/>
       <hr className='app-hr'/>
       <Switch>
+          <Route path='/phonebook' exact component={ContactList}/>
           <Route path='/list' component={ContactList}/>
           <Route path='/list/detailed/:id' component={DetailedContact}/>
           <Route path='/addContact' component={AddContact}/>
