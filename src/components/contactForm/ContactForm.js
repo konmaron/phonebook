@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './ContactForm.module.css'
+import classes from './ContactForm.module.css';
 
 export default class ContactForm extends React.Component{
     state = {
@@ -14,90 +14,94 @@ export default class ContactForm extends React.Component{
 
     submitHandler = event => {
         event.preventDefault();
-        this.props.onSubmit({
-            id: this.state.id,
-            name: this.state.name,
-            lastName: this.state.lastName,
-            phone: this.state.phone,
-            email: this.state.email,
-            city: this.state.city,
-            desc: this.state.desc
-        })
-        alert(`Contact ${this.state.name} ${this.state.lastName} successfully added`)
-        this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
+
+        this.setState({isLoading: true});
+
+        setTimeout(() => {
+            this.props.onSubmit({
+                isLoading: false,
+                id: this.state.id,
+                name: this.state.name,
+                lastName: this.state.lastName,
+                phone: this.state.phone,
+                email: this.state.email,
+                city: this.state.city,
+                desc: this.state.desc
+            })
+            alert(`Contact ${this.state.name} ${this.state.lastName} successfully added`)
+            this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
+            this.setState({isLoading: false});
+        }, 2000)
+    }
+
+    onChangeHandler = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({[name]: value});
+        if(value.length <= 1){
+            document.querySelector(`[name=${name}]`).classList.add(classes.danger);
+        }else{
+            document.querySelector(`[name=${name}]`).classList.remove(classes.danger);
+        }
+
+        if(!this.state.name || !this.state.lastName || !this.state.phone || !this.state.email || !this.state.city || !this.state.desc){
+            document.getElementById('btn').setAttribute('disabled', true);
+        }else{
+            document.getElementById('btn').removeAttribute('disabled');
+        }
     }
 
     render(){
         return (
-            <div>
-                <input
-                    id='inpAddName'
-                    type='text'
-                    placeholder='Contact Name'
-                    value={this.state.name}
-                    onChange={event => {
-                        this.setState({name: event.target.value});
-                        this.state.name.length <= 1 ?
-                            document.getElementById('inpAddName').classList.add(classes.danger) :
-                            document.getElementById('inpAddName').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpAddLastName'
-                    type='text'
-                    placeholder='Contact Last Name'
-                    value={this.state.lastName}
-                    onChange={event => {
-                        this.setState({lastName: event.target.value});
-                        this.state.lastName.length <= 1 ?
-                            document.getElementById('inpAddLastName').classList.add(classes.danger) :
-                            document.getElementById('inpAddLastName').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpAddPhone'
-                    type='text'
-                    placeholder='Contact phone number'
-                    value={this.state.phone}
-                    onChange={event => {
-                        this.setState({phone: event.target.value});
-                        this.state.phone.length <= 1 ?
-                            document.getElementById('inpAddPhone').classList.add(classes.danger) :
-                            document.getElementById('inpAddPhone').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpAddEmail'
-                    type='text'
-                    placeholder='Contact email'
-                    value={this.state.email}
-                    onChange={event => {
-                        this.setState({email: event.target.value});
-                        this.state.email.length <= 1 ?
-                            document.getElementById('inpAddEmail').classList.add(classes.danger) :
-                            document.getElementById('inpAddEmail').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpAddCity'
-                    type='text'
-                    placeholder='Contact city'
-                    value={this.state.city}
-                    onChange={event => {
-                        this.setState({city: event.target.value});
-                        this.state.city.length <= 1 ?
-                            // ((document.getElementById('btn').setAttribute('disabled', true)),
-                            document.getElementById('inpAddCity').classList.add(classes.danger) :
-                            document.getElementById('inpAddCity').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <textarea
-                    placeholder='Contact Description'
-                    value={this.state.desc}
-                    onChange={event => this.setState({desc: event.target.value})}
-                /><br/>
-                <button id='btn' onClick={this.submitHandler}>ADD</button>
-            </div>
+            <>
+                {this.state.isLoading ? <div className={classes.bgr}><div className={classes["lds-circle"]}><div></div></div></div> : null}
+                    <form onSubmit={this.submitHandler}>
+                        <input
+                            name='name'
+                            type='text'
+                            placeholder='First name'
+                            value={this.state.name}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <input
+                            name='lastName'
+                            type='text'
+                            placeholder='Last name'
+                            value={this.state.lastName}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <input
+                            name='phone'
+                            type='text'
+                            placeholder='Phone number'
+                            value={this.state.phone}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <input
+                            name='email'
+                            type='text'
+                            placeholder='Email'
+                            value={this.state.email}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <input
+                            name='city'
+                            type='text'
+                            placeholder='City'
+                            value={this.state.city}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <textarea
+                            name='desc'
+                            placeholder='Description'
+                            value={this.state.desc}
+                            onInput = {this.onChangeHandler}
+                        /><br/>
+                        <button id='btn' disabled>ADD</button>
+                    </form>
+                </>
         )
+
     }
 }
+

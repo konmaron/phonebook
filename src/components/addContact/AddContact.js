@@ -9,9 +9,18 @@ function AddContact({context}){
                 <h1>Add new contact</h1>
             </div>
             <div className={classes.form}>
-                <ContactForm onSubmit={contact => context.addContact({id: randomId(), name: contact.name,
-                    lastName: contact.lastName, phone: contact.phone, email: contact.email, city: contact.city,
-                    desc: contact.desc})}/>
+                <ContactForm onSubmit={
+                    contact => context.addContact(
+                        {
+                            id: randomId(),
+                            name: contact.name,
+                            lastName: contact.lastName,
+                            phone: contact.phone,
+                            email: contact.email,
+                            city: contact.city,
+                            desc: contact.desc
+                        })
+                }/>
             </div>
         </div>
     )

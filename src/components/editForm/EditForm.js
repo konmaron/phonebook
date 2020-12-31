@@ -5,6 +5,7 @@ import withAppContext from "../../context/withAppContext";
 
 class EditForm extends React.Component{
     state = {
+        isLoading: false,
         id: parseInt(this.props.match.params.id),
         name: this.props.match.params.name,
         lastName: this.props.match.params.lastName,
@@ -16,89 +17,99 @@ class EditForm extends React.Component{
 
     submitHandler = event => {
         event.preventDefault();
-        this.props.onSubmit({
-            id: this.state.id,
-            name: this.state.name,
-            lastName: this.state.lastName,
-            phone: this.state.phone,
-            email: this.state.email,
-            city: this.state.city,
-            desc: this.state.desc
-        })
-        this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
-        this.props.history.goBack();
+
+        this.setState({isLoading: true});
+        setTimeout(() => {
+            this.props.onSubmit({
+                id: this.state.id,
+                name: this.state.name,
+                lastName: this.state.lastName,
+                phone: this.state.phone,
+                email: this.state.email,
+                city: this.state.city,
+                desc: this.state.desc
+            })
+            this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
+            this.props.history.goBack();
+            this.setState({isLoading: false});
+        }, 2000)
+
+
+    }
+
+    onChangeHandler = event => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({[name]: value});
+
+        if(value.length <= 1){
+            document.querySelector(`[name=${name}]`).classList.add(classes.danger);
+        }else{
+            document.querySelector(`[name=${name}]`).classList.remove(classes.danger);
+        }
+
+        if(!this.state.name || !this.state.lastName || !this.state.phone || !this.state.email || !this.state.city || !this.state.desc){
+            document.getElementById('btn-edit').setAttribute('disabled', true);
+        }else{
+            document.getElementById('btn-edit').removeAttribute('disabled');
+        }
     }
 
     render(){
         return (
-            <div>
-                <input
-                    id='inpEditName'
-                    type='text'
-                    placeholder='Contact Name'
-                    value={this.state.name}
-                    onChange={event => {
-                        this.setState({name: event.target.value});
-                        this.state.name.length <= 1 ?
-                            document.getElementById('inpEditName').classList.add(classes.danger) :
-                            document.getElementById('inpEditName').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpEditLastName'
-                    type='text'
-                    placeholder='Contact Last Name'
-                    value={this.state.lastName}
-                    onChange={event => {
-                        this.setState({lastName: event.target.value});
-                        this.state.lastName.length <= 1 ?
-                            document.getElementById('inpEditLastName').classList.add(classes.danger) :
-                            document.getElementById('inpEditLastName').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpEditPhone'
-                    type='text'
-                    placeholder='Contact phone number'
-                    value={this.state.phone}
-                    onChange={event => {
-                        this.setState({phone: event.target.value});
-                        this.state.phone.length <= 1 ?
-                            document.getElementById('inpEditPhone').classList.add(classes.danger) :
-                            document.getElementById('inpEditPhone').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpEditEmail'
-                    type='text'
-                    placeholder='Contact email'
-                    value={this.state.email}
-                    onChange={event => {
-                        this.setState({email: event.target.value});
-                        this.state.email.length <= 1 ?
-                            document.getElementById('inpEditEmail').classList.add(classes.danger) :
-                            document.getElementById('inpEditEmail').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <input
-                    id='inpEditCity'
-                    type='text'
-                    placeholder='Contact city'
-                    value={this.state.city}
-                    onChange={event => {
-                        this.setState({city: event.target.value});
-                        this.state.city.length <= 1 ?
-                            document.getElementById('inpEditCity').classList.add(classes.danger) :
-                            document.getElementById('inpEditCity').classList.remove(classes.danger)
-                    }}
-                /><br/>
-                <textarea
-                    placeholder='Contact Description'
-                    value={this.state.desc}
-                    onChange={event => this.setState({desc: event.target.value})}
-                /><br/>
-                <button className={classes.btn} onClick={this.submitHandler}>SAVE</button>
-            </div>
+            <>
+                {this.state.isLoading ? <div className={classes.bgr}><div className={classes["lds-circle"]}><div></div></div></div> : null}
+                <div>
+                    <input
+                        name='name'
+                        id='inpEditName'
+                        type='text'
+                        placeholder='Contact Name'
+                        value={this.state.name}
+                        onChange={this.onChangeHandler}
+                    /><br/>
+                    <input
+                        name='lastName'
+                        id='inpEditLastName'
+                        type='text'
+                        placeholder='Contact Last Name'
+                        value={this.state.lastName}
+                        onChange={this.onChangeHandler}
+
+                    /><br/>
+                    <input
+                        name='phone'
+                        id='inpEditPhone'
+                        type='text'
+                        placeholder='Contact phone number'
+                        value={this.state.phone}
+                        onChange={this.onChangeHandler}
+                    /><br/>
+                    <input
+                        name='email'
+                        id='inpEditEmail'
+                        type='text'
+                        placeholder='Contact email'
+                        value={this.state.email}
+                        onChange={this.onChangeHandler}
+                    /><br/>
+                    <input
+                        name='city'
+                        id='inpEditCity'
+                        type='text'
+                        placeholder='Contact city'
+                        value={this.state.city}
+                        onChange={this.onChangeHandler}
+                    /><br/>
+                    <textarea
+                        name='desc'
+                        placeholder='Contact Description'
+                        value={this.state.desc}
+                        onChange={this.onChangeHandler}
+                    /><br/>
+                    <button id='btn-edit' className={classes.btn} onClick={this.submitHandler}>SAVE</button>
+                </div>
+            </>
         )
     }
 }
