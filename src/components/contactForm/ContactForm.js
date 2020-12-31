@@ -30,6 +30,7 @@ export default class ContactForm extends React.Component{
             })
             alert(`Contact ${this.state.name} ${this.state.lastName} successfully added`)
             this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
+            document.getElementById('btn').setAttribute('disabled', true)
             this.setState({isLoading: false});
         }, 2000)
     }

@@ -65,7 +65,7 @@ button:disabled{
 .lds-circle {
     display: block;
     transform: translateZ(1px);
-    margin: 25% 50%;
+    margin: 200px 50%;
 }
 
 .lds-circle > div {
@@ -74,7 +74,7 @@ button:disabled{
     height: 128px;
     margin: 16px;
     border-radius: 50%;
-    background: green;
+    background: #4caf50;
     animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
