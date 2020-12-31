@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/phonebook/static/css/main.c5a8cca0.chunk.css",
+    "main.css": "/phonebook/static/css/main.f5aacfa9.chunk.css",
     "main.js": "/phonebook/static/js/main.526e29b4.chunk.js",
     "main.js.map": "/phonebook/static/js/main.526e29b4.chunk.js.map",
     "runtime-main.js": "/phonebook/static/js/runtime-main.0f6204bc.js",
@@ -8,14 +8,14 @@
     "static/js/2.448cdebb.chunk.js": "/phonebook/static/js/2.448cdebb.chunk.js",
     "static/js/2.448cdebb.chunk.js.map": "/phonebook/static/js/2.448cdebb.chunk.js.map",
     "index.html": "/phonebook/index.html",
-    "static/css/main.c5a8cca0.chunk.css.map": "/phonebook/static/css/main.c5a8cca0.chunk.css.map",
+    "static/css/main.f5aacfa9.chunk.css.map": "/phonebook/static/css/main.f5aacfa9.chunk.css.map",
     "static/js/2.448cdebb.chunk.js.LICENSE.txt": "/phonebook/static/js/2.448cdebb.chunk.js.LICENSE.txt",
     "static/media/bin.71b28d15.svg": "/phonebook/static/media/bin.71b28d15.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.0f6204bc.js",
     "static/js/2.448cdebb.chunk.js",
-    "static/css/main.c5a8cca0.chunk.css",
+    "static/css/main.f5aacfa9.chunk.css",
     "static/js/main.526e29b4.chunk.js"
   ]
 }
