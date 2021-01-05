@@ -5,7 +5,6 @@ import withAppContext from "../../context/withAppContext";
 
 class EditForm extends React.Component{
     state = {
-        isLoading: false,
         id: parseInt(this.props.match.params.id),
         name: this.props.match.params.name,
         lastName: this.props.match.params.lastName,
@@ -17,24 +16,17 @@ class EditForm extends React.Component{
 
     submitHandler = event => {
         event.preventDefault();
-
-        this.setState({isLoading: true});
-        setTimeout(() => {
-            this.props.onSubmit({
-                id: this.state.id,
-                name: this.state.name,
-                lastName: this.state.lastName,
-                phone: this.state.phone,
-                email: this.state.email,
-                city: this.state.city,
-                desc: this.state.desc
-            })
-            this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
-            this.props.history.goBack();
-            this.setState({isLoading: false});
-        }, 2000)
-
-
+        this.props.onSubmit({
+            id: this.state.id,
+            name: this.state.name,
+            lastName: this.state.lastName,
+            phone: this.state.phone,
+            email: this.state.email,
+            city: this.state.city,
+            desc: this.state.desc
+        })
+        this.setState({id:'', name:'', lastName:'', phone:'', email:'', city:'', desc:''});
+        // this.props.history.goBack();
     }
 
     onChangeHandler = event => {
@@ -58,7 +50,6 @@ class EditForm extends React.Component{
     render(){
         return (
             <>
-                {this.state.isLoading ? <div className={classes.bgr}><div className={classes["lds-circle"]}><div></div></div></div> : null}
                 <div>
                     <input
                         name='name'

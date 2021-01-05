@@ -22,14 +22,6 @@
     padding: 0;
 }
 
-/*.lds-circle-background{*/
-/*    position: absolute;*/
-/*    width: 100vw;*/
-/*    height: 100vh;*/
-/*    background-color: black;*/
-/*    opacity: 0.7;*/
-/*}*/
-
 .bgr{
     background-color: rgba(0, 0, 0, 0.7);
     position: absolute;
@@ -66,4 +58,12 @@
     100% {
         transform: rotateY(3600deg);
     }
+}
+
+.swal-overlay:before{
+    height: 50%;
+}
+
+.swal-button{
+    background-color: #4caf50;
 }

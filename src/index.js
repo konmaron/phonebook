@@ -4,15 +4,15 @@ import './index.css';
 import App from './App';
 import AppContextProvider from "./context/AppContextProvider";
 import {BrowserRouter} from "react-router-dom";
-// import SetContacts from "./fakeSetup";
 
-// SetContacts();
+import Store from "./services/storage";
+Store.saveContacts();
 
 ReactDOM.render(
-    <AppContextProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+        <AppContextProvider>
             <App/>
-        </BrowserRouter>
-    </AppContextProvider>,
+        </AppContextProvider>
+    </BrowserRouter>,
     document.getElementById('root')
 );
