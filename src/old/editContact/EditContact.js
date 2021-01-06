@@ -1,13 +1,15 @@
 import withAppContext from "../../context/withAppContext";
 import classes from './EditContact.module.css'
-import EditForm from "../editForm/EditForm";
 import {withRouter} from "react-router-dom";
+import ContactForm from "../../components/contactForm/ContactForm";
 
-function EditContact({context}){
+function EditContact({context, match}){
+    const cont = match.params.id;
+    {cont ? console.log('hi') : console.log('buy')}
     return (
         <div className={classes.container}>
             <div className={classes.form}>
-                <EditForm
+                <ContactForm
                     onSubmit={
                     contact => context.editContact(
                         contact.id,

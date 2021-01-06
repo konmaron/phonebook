@@ -1,6 +1,6 @@
 import withAppContext from "../../context/withAppContext";
 import {Link, Route, withRouter} from 'react-router-dom';
-import DetailedContact from "../detailedContact/DetailedContact";
+import DetailedContact from "../../components/detailedContact/DetailedContact";
 
 function ContactRow(props){
     console.log(props.match);

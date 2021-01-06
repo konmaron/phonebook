@@ -1,32 +1,60 @@
 import withAppContext from "../../context/withAppContext";
+import {withRouter} from 'react-router-dom';
 import ContactForm from "../contactForm/ContactForm";
 import classes from './AddContact.module.css'
 
-function AddContact({context}){
-    return (
-        <div className={classes.container}>
-            <div className={classes.text}>
-                <h1>Add new contact</h1>
+function AddContact({context, match}){
+    const addOrEdit = match.params.id;
+    if(addOrEdit){
+        return (
+            <div className={classes.container}>
+                <div className={classes.form}>
+                    <ContactForm
+                        onSubmit={
+                            contact => context.editContact(
+                                contact.id,
+                                {
+                                    id: parseInt(contact.id),
+                                    name: contact.name,
+                                    lastName: contact.lastName,
+                                    phone: contact.phone,
+                                    email: contact.email,
+                                    city: contact.city,
+                                    desc: contact.desc
+                                })}
+                        context={context}/>
+                </div>
+                <div className={classes.text}>
+                    <h1>Edit contact</h1>
+                </div>
             </div>
-            <div className={classes.form}>
-                <ContactForm onSubmit={
-                    contact => context.addContact(
-                        {
-                            id: randomId(),
-                            name: contact.name,
-                            lastName: contact.lastName,
-                            phone: contact.phone,
-                            email: contact.email,
-                            city: contact.city,
-                            desc: contact.desc
-                        })
-                }/>
+        )
+    }else{
+        return (
+            <div className={classes.container}>
+                <div className={classes.text}>
+                    <h1>Add new contact</h1>
+                </div>
+                <div className={classes.form}>
+                    <ContactForm onSubmit={
+                        contact => context.addContact(
+                            {
+                                id: randomId(),
+                                name: contact.name,
+                                lastName: contact.lastName,
+                                phone: contact.phone,
+                                email: contact.email,
+                                city: contact.city,
+                                desc: contact.desc
+                            })
+                    }/>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
-export default withAppContext(AddContact);
+export default withAppContext(withRouter(AddContact));
 
 function randomId(){
     const min = 1;

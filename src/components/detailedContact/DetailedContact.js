@@ -16,7 +16,7 @@ function DetailedContact({match, context}){
                 <h2>{contact.name} {contact.lastName}</h2>
                 <div className={classes['name-img']}>
                     <Link to='/list'><img src={bin} alt='bin icon' onClick={() => context.removeContact(contact.id)}/></Link>
-                    <Link to={`/editContact/${contact.id}/${contact.name}/${contact.lastName}/${contact.phone}/${contact.email}/${contact.city}/${contact.desc}`}><img src={edit} alt='edit icon'/></Link>
+                    <Link to={`/addContact/${contact.id}/${contact.name}/${contact.lastName}/${contact.phone}/${contact.email}/${contact.city}/${contact.desc}`}><img src={edit} alt='edit icon'/></Link>
                 </div>
             </div>
             <hr className={classes['hr-detailed']}/>
