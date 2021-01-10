@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/phonebook/static/css/main.e54abfff.chunk.css",
-    "main.js": "/phonebook/static/js/main.247fb31f.chunk.js",
-    "main.js.map": "/phonebook/static/js/main.247fb31f.chunk.js.map",
-    "runtime-main.js": "/phonebook/static/js/runtime-main.0f6204bc.js",
-    "runtime-main.js.map": "/phonebook/static/js/runtime-main.0f6204bc.js.map",
-    "static/js/2.3677ed39.chunk.js": "/phonebook/static/js/2.3677ed39.chunk.js",
-    "static/js/2.3677ed39.chunk.js.map": "/phonebook/static/js/2.3677ed39.chunk.js.map",
-    "index.html": "/phonebook/index.html",
-    "static/css/main.e54abfff.chunk.css.map": "/phonebook/static/css/main.e54abfff.chunk.css.map",
-    "static/js/2.3677ed39.chunk.js.LICENSE.txt": "/phonebook/static/js/2.3677ed39.chunk.js.LICENSE.txt",
-    "static/media/bin.71b28d15.svg": "/phonebook/static/media/bin.71b28d15.svg"
+    "main.css": "/phonebook/npm%20i%20@sweetalert/with-react/static/css/main.ba66a639.chunk.css",
+    "main.js": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/main.19becbd7.chunk.js",
+    "main.js.map": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/main.19becbd7.chunk.js.map",
+    "runtime-main.js": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/runtime-main.7c2ba59c.js",
+    "runtime-main.js.map": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/runtime-main.7c2ba59c.js.map",
+    "static/js/2.aabd6089.chunk.js": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/2.aabd6089.chunk.js",
+    "static/js/2.aabd6089.chunk.js.map": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/2.aabd6089.chunk.js.map",
+    "index.html": "/phonebook/npm%20i%20@sweetalert/with-react/index.html",
+    "static/css/main.ba66a639.chunk.css.map": "/phonebook/npm%20i%20@sweetalert/with-react/static/css/main.ba66a639.chunk.css.map",
+    "static/js/2.aabd6089.chunk.js.LICENSE.txt": "/phonebook/npm%20i%20@sweetalert/with-react/static/js/2.aabd6089.chunk.js.LICENSE.txt",
+    "static/media/bin.71b28d15.svg": "/phonebook/npm%20i%20@sweetalert/with-react/static/media/bin.71b28d15.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.0f6204bc.js",
-    "static/js/2.3677ed39.chunk.js",
-    "static/css/main.e54abfff.chunk.css",
-    "static/js/main.247fb31f.chunk.js"
+    "static/js/runtime-main.7c2ba59c.js",
+    "static/js/2.aabd6089.chunk.js",
+    "static/css/main.ba66a639.chunk.css",
+    "static/js/main.19becbd7.chunk.js"
   ]
 }
