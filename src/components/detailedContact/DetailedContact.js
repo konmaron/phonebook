@@ -16,7 +16,7 @@ function DetailedContact({match, context}){
                 <h2>{contact.name} {contact.lastName}</h2>
                 <div className={classes['name-img']}>
                     <Link to='/list'><img src={bin} alt='bin icon' onClick={() => context.removeContact(contact.id)}/></Link>
-                    <Link to={`/addContact/${contact.id}/${contact.name}/${contact.lastName}/${contact.phone}/${contact.email}/${contact.city}/${contact.desc}`}><img src={edit} alt='edit icon'/></Link>
+                    <Link to={`/addContact/${contact.id}/${contact.name}/${contact.lastName}/${contact.phone}/${contact.email}/${contact.address}/${contact.description}`}><img src={edit} alt='edit icon'/></Link>
                 </div>
             </div>
             <hr className={classes['hr-detailed']}/>
@@ -30,10 +30,10 @@ function DetailedContact({match, context}){
             </div>
             <div className={classes.data}>
                 <img src={city} alt='buildings icon'/>
-                <p>{contact.city}</p><br/>
+                <p>{contact.address}</p><br/>
             </div>
             <div className={classes.data}>
-                <p>{contact.desc}</p>
+                <p>{contact.description}</p>
             </div>
         </div>
     )

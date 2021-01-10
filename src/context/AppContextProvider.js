@@ -5,14 +5,17 @@ import {withRouter} from 'react-router-dom';
 import classes from "../components/contactForm/ContactForm.module.css";
 import swal from 'sweetalert';
 
+import Api from "../services/api";
+
 class AppContextProvider extends React.Component{
     state = {
         isLoading: true,
-        contacts: []
+        contacts: [],
+        token: ''
     }
 
     componentDidMount() {
-        Store.getAllContacts().then(contacts => {
+        Store.getAllContacts(`${this.state.token}`).then(contacts => {
             this.setState({
                 contacts,
                 isLoading: false
@@ -26,12 +29,13 @@ class AppContextProvider extends React.Component{
 
     addContact = (contact) => {
         this.setState({isLoading: true});
-        Store.addContact(contact).then(() => {
-            const arr = [...this.state.contacts, contact];
-            this.setState({
-                isLoading: false,
-                contacts: [...arr]
-            });
+        Store.addContact(`${this.state.token}`, contact).then(() => {
+            Store.getAllContacts(`${this.state.token}`).then(contacts => {
+                this.setState({
+                    contacts,
+                    isLoading: false
+                });
+            })
             swal(`Contact ${contact.name} ${contact.lastName} successfully added`)
             this.props.history.push('/list');
         }).catch((error) => {
@@ -41,34 +45,88 @@ class AppContextProvider extends React.Component{
 
     removeContact = (id) => {
         this.setState({isLoading: true});
-        Store.removeContact(id).then(() => {
-            const arr = [...this.state.contacts];
+        Store.removeContact(`${this.state.token}`, id).then(() => {
             const index = this.state.contacts.findIndex(contact => contact.id === id);
             swal(`Contact ${this.state.contacts[index].name} ${this.state.contacts[index].lastName} successfully removed`)
-            arr.splice(index,1);
-            this.setState({
-                isLoading: false,
-                contacts: [...arr]
-            });
+            Store.getAllContacts(`${this.state.token}`).then(contacts => {
+                this.setState({
+                    contacts,
+                    isLoading: false
+                });
+            })
             this.props.history.push('/list');
         }).catch((error) => {
             this.setState({isLoading: false});
         })
     }
 
-    editContact = (id, contact) => {
-        this.setState({isLoading: true});
-        Store.editContact(contact, id).then(() => {
-            const arr = [...this.state.contacts];
-            const index = this.state.contacts.findIndex(contact => contact.id === id);
-            swal(`Contact ${this.state.contacts[index].name} ${this.state.contacts[index].lastName} successfully edited`)
-            arr[index] = contact;
-            this.setState({
-                isLoading: false,
-                contacts: [...arr]
-            });
-            this.props.history.push(`/list/detailed/${id}`);
+    removeAllContacts = () => {
+        swal('Your Contacts have been removed!');
+        Store.removeAllContacts(this.state.token).then(() => {
+            Store.getAllContacts(`${this.state.token}`).then(contacts => {
+                this.setState({
+                    contacts,
+                    isLoading: false
+                });
+            })
+            this.props.history.push('/list');
         })
+    }
+
+    editContact = (contact) => {
+        this.setState({isLoading: true});
+        Store.editContact(`${this.state.token}`, contact).then(() => {
+            Store.getAllContacts(`${this.state.token}`).then(contacts => {
+                this.setState({
+                    contacts,
+                    isLoading: false
+                });
+            })
+            swal(`Contact ${contact.name} ${contact.lastName} successfully edited`)
+            this.props.history.push('/list');
+        }).catch((error) => {
+            this.setState({isLoading: false});
+        })
+    }
+
+    login = (email, password) => {
+        Api.login(`${email}`, `${password}`)
+            .then(response => {
+                let token = response.token;
+                localStorage.setItem(`TOKEN_OF_${email}`, token);
+                this.setState({token: token})
+                Store.getAllContacts(`${this.state.token}`).then(contacts => {
+                    this.setState({
+                        contacts,
+                        isLoading: false
+                    });
+                })
+                this.props.history.push('/list');
+            })
+            .catch(error => {
+                swal(error.message)
+            })
+    }
+
+    register = (email, password) => {
+        Api.registration(`${email}`, `${password}`)
+            .then(response => {
+                let token = response.token;
+                console.log(token);
+                this.setState({token: token})
+                localStorage.setItem(`TOKEN_OF_${email}`, token);
+                this.props.history.push('/list');
+            })
+            .catch(error => {
+                swal(error.message)
+            })
+    }
+
+    logout = (event) => {
+        event.preventDefault();
+        swal(`You've logged out. Will miss you :(`);
+        this.setState({token: ''});
+        this.props.history.push('/');
     }
 
     render(){
@@ -79,7 +137,12 @@ class AppContextProvider extends React.Component{
                     addContact: this.addContact,
                     editContact: this.editContact,
                     removeContact: this.removeContact,
-                    contacts: this.state.contacts
+                    login: this.login,
+                    register: this.register,
+                    removeAllContacts: this.removeAllContacts,
+                    logout: this.logout,
+                    contacts: this.state.contacts,
+                    token: this.state.token
                 }}>
                     {this.props.children}
                     {this.state.isLoading ? <div className={classes.bgr}><div className={classes["lds-circle"]}><div></div></div></div> : null}                </Context.Provider>
@@ -89,30 +152,3 @@ class AppContextProvider extends React.Component{
 }
 
 export default withRouter(AppContextProvider);
-
-// UPDATED FUNCTIONS
-// editContact = (id, contact) => {
-//     const index = this.state.contacts.findIndex(contact => contact.id === id);
-//     const contactsTmp = [...this.state.contacts];
-//     contactsTmp[index] = contact;
-//     this.setState({contacts: [...contactsTmp]})
-//     localStorage.setItem('CONTACTS', JSON.stringify(contactsTmp));
-//     this.setState({isLoading: false});
-// }
-// removeContact = (id) => {
-//     const index = this.state.contacts.findIndex(contact => contact.id === id);
-//     const contactsTmp = [...this.state.contacts];
-//     contactsTmp.splice(index, 1);
-//     this.setState({contacts: [...contactsTmp]});
-//     localStorage.setItem('CONTACTS', JSON.stringify(contactsTmp));
-//     this.setState({isLoading: false});
-// }
-// addContact = (contact) => {
-//     this.setState({isLoading: true});
-//     const index = this.state.contacts.length
-//     const contactsTmp = [...this.state.contacts];
-//     contactsTmp[index] = contact
-//     this.setState({contacts: [...contactsTmp]});
-//     localStorage.setItem('CONTACTS', JSON.stringify(contactsTmp));
-//     this.setState({isLoading: false});
-// }

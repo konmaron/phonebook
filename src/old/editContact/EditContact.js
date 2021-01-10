@@ -14,7 +14,7 @@ function EditContact({context, match}){
                     contact => context.editContact(
                         contact.id,
                         {
-                            id: parseInt(contact.id),
+                            // id: parseInt(contact.id),
                             name: contact.name,
                             lastName: contact.lastName,
                             phone: contact.phone,

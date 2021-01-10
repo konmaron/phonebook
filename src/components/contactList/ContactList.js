@@ -18,7 +18,7 @@ function ContactList({context}){
                                    arrLi.forEach(li => li.classList.remove(classes.active));
                                    document.getElementById(id).classList.add(classes.active)}
                                 }>
-                                <NavLink id={id} to={`/list/detailed/${contact.id}`} activeStyle={{color:'red'}}>
+                                <NavLink id={id} to={`/list/detailed/${contact.id}`}>
                                     <h2 className={classes['name-class-list']}>{contact.name} {contact.lastName} </h2>
                                     <p className={classes['phone-class-list']}>{contact.phone}</p>
                                     <hr className={classes['hr-class-list']}/>

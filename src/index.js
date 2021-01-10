@@ -5,9 +5,6 @@ import App from './App';
 import AppContextProvider from "./context/AppContextProvider";
 import {BrowserRouter} from "react-router-dom";
 
-import Store from "./services/storage";
-Store.saveContacts();
-
 ReactDOM.render(
     <BrowserRouter>
         <AppContextProvider>

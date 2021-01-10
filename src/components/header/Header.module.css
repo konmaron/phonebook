@@ -10,12 +10,8 @@
     height: 50px;
 }
 
-.home, .add{
+.home, .add, .remove-all, .logout{
     color: #fff;
-    font-weight: bold;
-}
-
-.home:hover, .add:hover{
     font-weight: bold;
 }
 
@@ -27,12 +23,32 @@ a.home{
 }
 
 a.add{
+    padding-top: 5px;
+}
+
+a.remove-all, a.logout{
+    padding-top: 15px;
+}
+
+a.add, a.remove-all, a.logout{
     background-color: black;
     width: 250px;
     text-transform: uppercase;
     text-align: center;
-    margin-right: 0;
-    padding: 13px;
+    margin-right: 2px;
+    font-size: 1rem;
+}
+
+a:hover{
+    background-color: #4caf50;
+}
+
+a.remove-all:hover{
+    background-color: #FC6F53;
+}
+
+a.logout:hover{
+    background-color: #9A54B0;
 }
 
 a.home.active, a.add.active{

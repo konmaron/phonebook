@@ -12,15 +12,14 @@ function AddContact({context, match}){
                     <ContactForm
                         onSubmit={
                             contact => context.editContact(
-                                contact.id,
                                 {
                                     id: parseInt(contact.id),
                                     name: contact.name,
                                     lastName: contact.lastName,
                                     phone: contact.phone,
                                     email: contact.email,
-                                    city: contact.city,
-                                    desc: contact.desc
+                                    address: contact.address,
+                                    description: contact.description
                                 })}
                         context={context}/>
                 </div>
@@ -39,13 +38,13 @@ function AddContact({context, match}){
                     <ContactForm onSubmit={
                         contact => context.addContact(
                             {
-                                id: randomId(),
+                                id: '',
                                 name: contact.name,
                                 lastName: contact.lastName,
                                 phone: contact.phone,
                                 email: contact.email,
-                                city: contact.city,
-                                desc: contact.desc
+                                address: contact.address,
+                                description: contact.description
                             })
                     }/>
                 </div>
@@ -55,9 +54,3 @@ function AddContact({context, match}){
 }
 
 export default withAppContext(withRouter(AddContact));
-
-function randomId(){
-    const min = 1;
-    const max = 1000000;
-    return Math.floor(min + Math.random() * (max - min));
-}

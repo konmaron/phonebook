@@ -1,25 +1,18 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
-import Header from "./components/header/Header";
-import ContactList from "./components/contactList/ContactList";
-import AddContact from "./components/addContact/AddContact";
-import DetailedContact from "./components/detailedContact/DetailedContact";
+import Authorization from "./components/authorization/Authorization";
+import withAppContext from "./context/withAppContext";
+import Main from "./components/main/Main";
 
+class App extends React.Component{
+    render() {
+        return (
+            <>
+                {this.props.context.token ? <Main/> : <Authorization/>}
+            </>
+        );
+    }
 
-export default function App() {
-  return (
-    <>
-      <Header/>
-      <hr className='app-hr'/>
-      <Switch>
-          <Route path='/phonebook' exact component={ContactList}/>
-          <Route path='/list' component={ContactList}/>
-          <Route path='/list/detailed/:id' component={DetailedContact}/>
-          <Route path='/addContact/:id/:name/:lastName/:phone/:email/:city/:desc' component={AddContact}/>
-          <Route path='/addContact' component={AddContact}/>
-          <Route path='**' render={() => <h1>Error</h1>}/>
-      </Switch>
-    </>
-  );
 }
+
+export default withAppContext(App);
 
