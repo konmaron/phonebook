@@ -27,7 +27,7 @@ function ContactList({context}){
                     }
                 </ul>
             </div>
-            <div className={classes['div-detailed-contact']} style={{flexBasis: '50%'}}>
+            <div className={classes['div-detailed-contact']} style={{flexBasis: '50%', marginTop: 0}}>
             {
                 context.contacts.length === 0 ?
                     <div style={{marginRight: '190px'}}><AddContact/></div> :
