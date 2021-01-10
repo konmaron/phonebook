@@ -1,4 +1,4 @@
-const BASE_URL = 'http://contacts-telran.herokuapp.com';
+const BASE_URL = 'https://contacts-telran.herokuapp.com';
 
 export default class Api{
     static registration(email, password){
