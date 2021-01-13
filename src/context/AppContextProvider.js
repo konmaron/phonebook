@@ -11,31 +11,44 @@ class AppContextProvider extends React.Component{
     state = {
         isLoading: true,
         contacts: [],
-        token: ''
+        token: null
     }
 
     componentDidMount() {
-        Store.getAllContacts(`${this.state.token}`).then(contacts => {
-            this.setState({
-                contacts,
-                isLoading: false
-            });
-        }).catch(error => {
-            this.setState({isLoading: false})
-        })
+        const token = Store.getToken();
+        if(token){
+            Api.getAllContacts(token)
+                .then(response => {
+                    this.setState({
+                        contacts: response.data.contacts,
+                        isLoading: false,
+                        token
+                });
+            }).catch(error => {
+                console.log(error)
+                this.setState({
+                    isLoading: false,
+                    token
+                })
+            })
+        }else{
+            this.setState({isLoading:false})
+        }
+
     }
 
     findById = (id) => this.state.contacts.find(contact => contact.id === id);
 
     addContact = (contact) => {
         this.setState({isLoading: true});
-        Store.addContact(`${this.state.token}`, contact).then(() => {
-            Store.getAllContacts(`${this.state.token}`).then(contacts => {
-                this.setState({
-                    contacts,
-                    isLoading: false
+        Api.addContact(`${this.state.token}`, contact).then(() => {
+            Api.getAllContacts(this.state.token)
+                .then(response => {
+                    this.setState({
+                        contacts: response.data.contacts,
+                        isLoading: false,
+                    })
                 });
-            })
             swal(`Contact ${contact.name} ${contact.lastName} successfully added`)
             this.props.history.push('/list');
         }).catch((error) => {
@@ -45,15 +58,16 @@ class AppContextProvider extends React.Component{
 
     removeContact = (id) => {
         this.setState({isLoading: true});
-        Store.removeContact(`${this.state.token}`, id).then(() => {
+        Api.removeContact(`${this.state.token}`, id).then(() => {
             const index = this.state.contacts.findIndex(contact => contact.id === id);
             swal(`Contact ${this.state.contacts[index].name} ${this.state.contacts[index].lastName} successfully removed`)
-            Store.getAllContacts(`${this.state.token}`).then(contacts => {
-                this.setState({
-                    contacts,
-                    isLoading: false
+            Api.getAllContacts(this.state.token)
+                .then(response => {
+                    this.setState({
+                        contacts: response.data.contacts,
+                        isLoading: false
+                    })
                 });
-            })
             this.props.history.push('/list');
         }).catch((error) => {
             this.setState({isLoading: false});
@@ -62,26 +76,28 @@ class AppContextProvider extends React.Component{
 
     removeAllContacts = () => {
         swal('Your Contacts have been removed!');
-        Store.removeAllContacts(this.state.token).then(() => {
-            Store.getAllContacts(`${this.state.token}`).then(contacts => {
-                this.setState({
-                    contacts,
-                    isLoading: false
+        Api.removeAllContacts(this.state.token).then(() => {
+            Api.getAllContacts(this.state.token)
+                .then(response => {
+                    this.setState({
+                        contacts: response.data.contacts,
+                        isLoading: false
+                    })
                 });
-            })
             this.props.history.push('/list');
         })
     }
 
     editContact = (contact) => {
         this.setState({isLoading: true});
-        Store.editContact(`${this.state.token}`, contact).then(() => {
-            Store.getAllContacts(`${this.state.token}`).then(contacts => {
-                this.setState({
-                    contacts,
-                    isLoading: false
+        Api.editContact(`${this.state.token}`, contact).then(() => {
+            Api.getAllContacts(this.state.token)
+                .then(response => {
+                    this.setState({
+                        contacts: response.data.contacts,
+                        isLoading: false
+                    })
                 });
-            })
             swal(`Contact ${contact.name} ${contact.lastName} successfully edited`)
             this.props.history.push('/list');
         }).catch((error) => {
@@ -92,15 +108,17 @@ class AppContextProvider extends React.Component{
     login = (email, password) => {
         Api.login(`${email}`, `${password}`)
             .then(response => {
-                let token = response.token;
-                localStorage.setItem(`TOKEN_OF_${email}`, token);
+                let token = response.data.token;
+                localStorage.setItem(`contact_app_token`, token);
                 this.setState({token: token})
-                Store.getAllContacts(`${this.state.token}`).then(contacts => {
-                    this.setState({
-                        contacts,
-                        isLoading: false
+                Api.getAllContacts(token)
+                    .then(response => {
+                        this.setState({
+                            contacts: response.data.contacts,
+                            isLoading: false,
+                            token
+                        })
                     });
-                })
                 this.props.history.push('/list');
             })
             .catch(error => {
@@ -111,10 +129,9 @@ class AppContextProvider extends React.Component{
     register = (email, password) => {
         Api.registration(`${email}`, `${password}`)
             .then(response => {
-                let token = response.token;
-                console.log(token);
+                let token = response.data.token;
                 this.setState({token: token})
-                localStorage.setItem(`TOKEN_OF_${email}`, token);
+                localStorage.setItem(`contact_app_token`, token);
                 this.props.history.push('/list');
             })
             .catch(error => {
@@ -125,6 +142,7 @@ class AppContextProvider extends React.Component{
     logout = (event) => {
         event.preventDefault();
         swal(`You've logged out. Will miss you :(`);
+        Store.clearToken()
         this.setState({token: ''});
         this.props.history.push('/');
     }

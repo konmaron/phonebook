@@ -1,27 +1,15 @@
-import Api from "./api";
+const TOKEN_KEY = 'contact_app_token'
 
 export default class Store{
-    static getAllContacts(token){
-        return Api.getAllContacts(token).then(contacts => contacts.contacts);
+    static saveToken(token){
+        localStorage.setItem(TOKEN_KEY, token);
     }
 
-    static addContact(token, contact){
-        return Api.addContact(token, contact)
-            .then(response => response.id)
+    static getToken(){
+        return localStorage.getItem(TOKEN_KEY);
     }
 
-    static removeContact(token, id){
-        return Api.removeContact(token, id)
-            .then(response => response);
-    }
-
-    static removeAllContacts(token){
-        return Api.removeAllContacts(token)
-            .then(response => response);
-    }
-
-    static editContact(token, contact){
-        return Api.editContact(token, contact)
-            .then(response => response);
+    static clearToken(){
+        localStorage.removeItem(TOKEN_KEY);
     }
 }

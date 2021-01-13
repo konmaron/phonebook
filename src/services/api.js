@@ -1,64 +1,63 @@
+import axios from "axios";
 const BASE_URL = 'https://contacts-telran.herokuapp.com';
+
+const client = axios.create({
+    baseURL:'https://contacts-telran.herokuapp.com/api/'
+})
+
+client.interceptors.request.use(
+    function (config){
+        console.log(config)
+        config.headers = {
+            Authorization: localStorage.getItem('contact_app_token'),
+            'Content-Type':'application/json',
+        }
+        return config;
+    }, function (error) {
+        return Promise.reject(error);
+    }
+)
 
 export default class Api{
     static registration(email, password){
-        let auth = {email, password};
-        let requestBody = JSON.stringify(auth);
-
-        return request(`${BASE_URL}/api/registration`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-            },
-            body:requestBody
+        return client.post('registration', {
+            email: email,
+            password: password
         })
     }
 
     static login(email, password){
-        let auth = {email, password};
-        let requestBody = JSON.stringify(auth);
-
-        return request(`${BASE_URL}/api/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-            },
-            body:requestBody
+        return client.post('login', {
+            email: email,
+            password: password
         })
     }
 
     static getAllContacts(token){
-        return request(`${BASE_URL}/api/contact`, {
+        return client.get('contact');
+    }
+
+    static addContact(token, contact) {
+        return client.post('contact', {
+            address: contact.address,
+            description: contact.description,
+            email: contact.email,
+            lastName: contact.lastName,
+            name: contact.name,
+            phone: contact.phone
+        })
+    }
+
+    static removeContact(token, id){
+        return client.delete(`contact/${id}`, {
             headers: {
                 Authorization: token
             }
         })
     }
 
-    static addContact(token, contact) {
-        let requestBody = JSON.stringify(contact);
-        return request(`${BASE_URL}/api/contact`, {
-            method: 'POST',
-            headers: {
-                Authorization: `${token}`,
-                'Content-Type':'application/json'
-            },
-            body: requestBody
-        })
-    }
-
-    static removeContact(token, id){
-        return request(`${BASE_URL}/api/contact/${id}`,{
-            method: 'DELETE',
-            headers: {
-                Authorization: `${token}`
-            }
-        })
-    }
-
     static removeAllContacts(token){
-        return request(`${BASE_URL}/api/clear`, {
-            method: 'DELETE',
+        return client.delete(`clear`, {
             headers: {
                 Authorization: token
             }
@@ -66,42 +65,42 @@ export default class Api{
     }
 
     static editContact(token, contact){
-        let requestBody = JSON.stringify(contact);
-        return request(`${BASE_URL}/api/contact`, {
-            method: 'PUT',
-            headers: {
-                Authorization: `${token}`,
-                'Content-Type':'application/json'
-            },
-            body: requestBody
+        return client.put('contact', {
+            address: contact.address,
+            description: contact.description,
+            email: contact.email,
+            lastName: contact.lastName,
+            name: contact.name,
+            phone: contact.phone,
+            id: contact.id
         })
     }
 }
 
-function parseJSON(response) {
-    return new Promise(resolve => {
-        response.json()
-            .then(json => resolve({
-                status: response.status,
-                ok: response.ok,
-                json
-            }));
-    });
-}
-
-function request(url, options) {
-    return new Promise((resolve, reject) => {
-        fetch(url, options)
-            .then(parseJSON)
-            .then(response => {
-                if (response.ok) {
-                    return resolve(response.json);
-                }
-                return reject(response.json);
-            }).catch(error => {
-            reject({
-                message: error.message
-            });
-        });
-    });
-}
+// function parseJSON(response) {
+//     return new Promise(resolve => {
+//         response.json()
+//             .then(json => resolve({
+//                 status: response.status,
+//                 ok: response.ok,
+//                 json
+//             }));
+//     });
+// }
+//
+// function request(url, options) {
+//     return new Promise((resolve, reject) => {
+//         fetch(url, options)
+//             .then(parseJSON)
+//             .then(response => {
+//                 if (response.ok) {
+//                     return resolve(response.json);
+//                 }
+//                 return reject(response.json);
+//             }).catch(error => {
+//             reject({
+//                 message: error.message
+//             });
+//         });
+//     });
+// }

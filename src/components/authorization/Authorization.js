@@ -66,8 +66,8 @@ class Authorization extends React.Component{
                             onBlur={this.hidePassReqs}
                         />
                     {this.state.hidden ?
-                        <img src={view} className={classes.eye} onClick={this.toggleShow}/> :
-                        <img src={noview} className={classes.eye} onClick={this.toggleShow}/>
+                        <img src={view} className={classes.eye} onClick={this.toggleShow} alt=''/> :
+                        <img src={noview} className={classes.eye} onClick={this.toggleShow} alt=''/>
                     }
                     {this.state.hiddenReqs ? '' :
                         <div className={classes['pass-reqs']}>

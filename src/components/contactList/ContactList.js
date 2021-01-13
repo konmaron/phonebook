@@ -6,6 +6,7 @@ import AddContact from "../addContact/AddContact";
 import classes from './ContactList.module.css'
 
 function ContactList({context}){
+    console.log(context)
     return (
         <div className={classes.container}>
             <div className={classes['contact-list']}>
