@@ -1,4 +1,4 @@
-import withAppContext from "../../context/withAppContext";
+import withAppContext from "../context/withAppContext";
 import {Link, Route, withRouter} from 'react-router-dom';
 import DetailedContact from "../../components/detailedContact/DetailedContact";
 

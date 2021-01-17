@@ -1,10 +1,11 @@
 import React from 'react';
+
 import {Route, Switch} from 'react-router-dom';
+
 import Header from "../header/Header";
 import ContactList from "../contactList/ContactList";
 import AddContact from "../addContact/AddContact";
 import DetailedContact from "../detailedContact/DetailedContact";
-import withAppContext from "../../context/withAppContext";
 
 class Main extends React.Component{
     render() {
@@ -26,5 +27,5 @@ class Main extends React.Component{
 
 }
 
-export default withAppContext(Main);
+export default Main;
 

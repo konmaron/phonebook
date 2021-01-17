@@ -1,7 +1,10 @@
-import withAppContext from "../../context/withAppContext";
-import {NavLink, withRouter} from 'react-router-dom';
-import classes from './Header.module.css';
 import React from 'react';
+
+import {NavLink, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as Actions from '../../redux/actions';
+
+import classes from './Header.module.css';
 
 class Header extends React.Component{
     render(){
@@ -10,12 +13,25 @@ class Header extends React.Component{
                 <ul className={classes['header-nav']}>
                     <NavLink to='/list' className={classes.home} activeClassName={classes.active}>Phone Book</NavLink>
                     <NavLink to='/addContact/' className={classes.add} activeClassName={classes.active}>Add New Contact</NavLink>
-                    <NavLink to='/list' className={classes['remove-all']} activeClassName={classes.active} onClick={this.props.context.removeAllContacts}>Remove All</NavLink>
-                    <NavLink to='/' className={classes.logout} onClick={this.props.context.logout}>Log out</NavLink>
+                    <NavLink to='/list' className={classes['remove-all']} activeClassName={classes.active} onClick={() => this.props.removeAll(this.props.token)}>Remove All</NavLink>
+                    <NavLink to='/' className={classes.logout} onClick={this.props.logout}>Log out</NavLink>
                 </ul>
             </div>
         )
     }
 }
 
-export default withAppContext(withRouter(Header));
+const mapStateToProps = state => {
+    return {
+        token: state.authReducer.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(Actions.logout()),
+        removeAll: (token) => dispatch(Actions.removeAll(token))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

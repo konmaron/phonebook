@@ -1,6 +1,12 @@
-import withAppContext from "../../context/withAppContext";
-import classes from './DetailedContact.module.css';
+import React from 'react'
+
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux';
+import * as Actions from '../../redux/actions';
+
+import Loader from "../loader/Loader";
+
+import classes from './DetailedContact.module.css';
 
 import edit from "./img/edit.png";
 import phone from "./img/technology.png"
@@ -8,35 +14,56 @@ import mail from "./img/multimedia.png"
 import city from "./img/buildings.png"
 import bin from './img/bin.svg';
 
-function DetailedContact({match, context}){
-    const contact = context.findById(parseInt(match.params.id))
-    return (
-        <div id={match.params.id}>
-            <div className={classes.name}>
-                <h2>{contact.name} {contact.lastName}</h2>
-                <div className={classes['name-img']}>
-                    <Link to='/list'><img src={bin} alt='bin icon' onClick={() => context.removeContact(contact.id)}/></Link>
-                    <Link to={`/addContact/${contact.id}/${contact.name}/${contact.lastName}/${contact.phone}/${contact.email}/${contact.address}/${contact.description}`}><img src={edit} alt='edit icon'/></Link>
+class DetailedContact extends React.Component{
+    findById = (id) => this.props.contacts.find(contact => contact.id === id);
+
+    render() {
+        const cntc = this.findById(parseInt(this.props.match.params.id))
+        return (
+            <div id={this.props.match.params.id}>
+                <div className={classes.name}>
+                    <h2>{cntc.name} {cntc.lastName}</h2>
+                    <div className={classes['name-img']}>
+                        <Link to='/list'><img src={bin} alt='bin icon' onClick={() => this.props.removeContact(cntc, this.props)}/></Link>
+                        <Link
+                            to={`/addContact/${cntc.id}/${cntc.name}/${cntc.lastName}/${cntc.phone}/${cntc.email}/${cntc.address}/${cntc.description}`}>
+                            <img src={edit} alt='edit icon'/>
+                        </Link>
+                    </div>
+                </div>
+                <hr className={classes['hr-detailed']}/>
+                <div className={classes.data}>
+                    <img src={phone} alt='phone icon'/>
+                    <p>{cntc.phone}</p>
+                </div>
+                <div className={classes.data}>
+                    <img src={mail} alt='email icon'/>
+                    <p>{cntc.email}</p>
+                </div>
+                <div className={classes.data}>
+                    <img src={city} alt='buildings icon'/>
+                    <p>{cntc.address}</p><br/>
+                </div>
+                <div className={classes.data}>
+                    <p>{cntc.description}</p>
                 </div>
             </div>
-            <hr className={classes['hr-detailed']}/>
-            <div className={classes.data}>
-                <img src={phone} alt='phone icon'/>
-                <p>{contact.phone}</p>
-            </div>
-            <div className={classes.data}>
-                <img src={mail} alt='email icon'/>
-                <p>{contact.email}</p>
-            </div>
-            <div className={classes.data}>
-                <img src={city} alt='buildings icon'/>
-                <p>{contact.address}</p><br/>
-            </div>
-            <div className={classes.data}>
-                <p>{contact.description}</p>
-            </div>
-        </div>
-    )
+        )
+    }
 }
 
-export default withAppContext(DetailedContact)
+const mapStateToProps = state => {
+    return {
+        token: state.authReducer.token,
+        contacts: state.contactListReducer.contacts,
+        loading: state.contactHandlerReducer.loading
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        removeContact: (contact, props) => dispatch(Actions.removeContact(contact, props))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedContact)

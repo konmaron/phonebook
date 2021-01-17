@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './EditForm.module.css';
 import {withRouter} from 'react-router-dom';
-import withAppContext from "../../context/withAppContext";
+import withAppContext from "../context/withAppContext";
 
 class EditForm extends React.Component{
     state = {

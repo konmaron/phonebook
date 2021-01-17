@@ -1,5 +1,4 @@
 import axios from "axios";
-const BASE_URL = 'https://contacts-telran.herokuapp.com';
 
 const client = axios.create({
     baseURL:'https://contacts-telran.herokuapp.com/api/'
@@ -7,7 +6,6 @@ const client = axios.create({
 
 client.interceptors.request.use(
     function (config){
-        console.log(config)
         config.headers = {
             Authorization: localStorage.getItem('contact_app_token'),
             'Content-Type':'application/json',

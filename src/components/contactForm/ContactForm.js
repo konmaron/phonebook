@@ -1,7 +1,8 @@
 import React from 'react';
-import classes from './ContactForm.module.css';
+
 import {withRouter} from 'react-router-dom';
-import withAppContext from "../../context/withAppContext";
+
+import classes from './ContactForm.module.css';
 
 class ContactForm extends React.Component{
     state = {
@@ -104,4 +105,4 @@ class ContactForm extends React.Component{
 }
 
 
-export default withAppContext(withRouter(ContactForm));
+export default withRouter(ContactForm);

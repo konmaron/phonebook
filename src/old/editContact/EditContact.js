@@ -1,4 +1,4 @@
-import withAppContext from "../../context/withAppContext";
+import withAppContext from "../context/withAppContext";
 import classes from './EditContact.module.css'
 import {withRouter} from "react-router-dom";
 import ContactForm from "../../components/contactForm/ContactForm";

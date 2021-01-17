@@ -1,7 +1,11 @@
 import React from 'react';
-import classes from './Authorization.module.css';
+
 import {withRouter} from 'react-router-dom'
-import withAppContext from "../../context/withAppContext";
+import {connect} from "react-redux";
+import * as Actions from '../../redux/actions';
+
+import classes from './Authorization.module.css';
+
 import view from './img/view.png';
 import noview from './img/invisible.png';
 
@@ -11,16 +15,6 @@ class Authorization extends React.Component{
         password:'',
         hidden: true,
         hiddenReqs: true
-    }
-
-    onSubmitLogin = (event) => {
-        event.preventDefault();
-        this.props.context.login(this.state.email, this.state.password);
-    }
-
-    onSubmitRegistration = (event) => {
-        event.preventDefault();
-        this.props.context.register(this.state.email, this.state.password)
     }
 
     onChange = event => {
@@ -57,14 +51,14 @@ class Authorization extends React.Component{
                         onChange={this.onChange}
                     />
                     <input
-                            name='password'
-                            type={this.state.hidden ? "password" : 'text'}
-                            placeholder="Password"
-                            value={this.state.password}
-                            onChange={this.onChange}
-                            onFocus={this.seePassReqs}
-                            onBlur={this.hidePassReqs}
-                        />
+                        name='password'
+                        type={this.state.hidden ? "password" : 'text'}
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={this.onChange}
+                        onFocus={this.seePassReqs}
+                        onBlur={this.hidePassReqs}
+                    />
                     {this.state.hidden ?
                         <img src={view} className={classes.eye} onClick={this.toggleShow} alt=''/> :
                         <img src={noview} className={classes.eye} onClick={this.toggleShow} alt=''/>
@@ -77,13 +71,19 @@ class Authorization extends React.Component{
                     }
                 </div>
                 <div className={classes["form-buttons"]}>
-                    <div className={classes["login-btn"]} onClick={this.onSubmitLogin}>log in</div>
-                    <div className={classes["login-btn"]} onClick={this.onSubmitRegistration}>register</div>
+                    <div className={classes["login-btn"]} onClick={() => this.props.login(this.state.email, this.state.password, this.props)}>log in</div>
+                    <div className={classes["login-btn"]} onClick={() => this.props.registration(this.state.email, this.state.password, this.props)}>register</div>
                 </div>
             </form>
         )
     }
-
 }
 
-export default withAppContext(withRouter(Authorization));
+const mapDispatchToProps = dispatch => {
+    return{
+        login: (email, password, props) => dispatch(Actions.login(email, password, props)),
+        registration: (email, password, props) => dispatch(Actions.registration(email, password, props))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(Authorization));

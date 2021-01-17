@@ -1,18 +1,25 @@
 import React from 'react';
+
 import Authorization from "./components/authorization/Authorization";
-import withAppContext from "./context/withAppContext";
 import Main from "./components/main/Main";
+
+import {connect} from 'react-redux'
 
 class App extends React.Component{
     render() {
         return (
             <>
-                {this.props.context.token ? <Main/> : <Authorization/>}
+                {this.props.token ? <Main/> : <Authorization/>}
             </>
         );
     }
-
 }
 
-export default withAppContext(App);
+const mapStateToProps = state => {
+    return {
+        token: state.authReducer.token
+    }
+}
+
+export default connect(mapStateToProps, null)(App);
 
