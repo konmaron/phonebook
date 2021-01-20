@@ -2,9 +2,7 @@ import React from 'react'
 
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
-import * as Actions from '../../redux/actions';
-
-import Loader from "../loader/Loader";
+import * as ContactsHandlerActions from '../../store/ContactsHandler/ContactsHandlerActions';
 
 import classes from './DetailedContact.module.css';
 
@@ -55,14 +53,15 @@ class DetailedContact extends React.Component{
 const mapStateToProps = state => {
     return {
         token: state.authReducer.token,
-        contacts: state.contactListReducer.contacts,
-        loading: state.contactHandlerReducer.loading
+        contacts: state.contactHandlerReducer.contacts,
+        loading: state.contactHandlerReducer.loading,
+        success: state.contactHandlerReducer.success
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        removeContact: (contact, props) => dispatch(Actions.removeContact(contact, props))
+        removeContact: (contact, props) => dispatch(ContactsHandlerActions.removeContact(contact, props))
     }
 }
 

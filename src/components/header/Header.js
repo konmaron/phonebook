@@ -2,11 +2,22 @@ import React from 'react';
 
 import {NavLink, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as Actions from '../../redux/actions';
+import * as ContactsHandlerActions from '../../store/ContactsHandler/ContactsHandlerActions';
+import * as AuthActions from '../../store/Auth/AuthActions'
 
+import swal from "sweetalert";
 import classes from './Header.module.css';
 
 class Header extends React.Component{
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.contactsLength === 0
+            && this.props.contactsLength !== prevProps.contactsLength
+            && prevProps.contactsLength !== 0){
+            swal('All contacts have been removed!');
+            return true;
+        }
+    }
+
     render(){
         return (
             <div className={classes.header}>
@@ -23,14 +34,15 @@ class Header extends React.Component{
 
 const mapStateToProps = state => {
     return {
-        token: state.authReducer.token
+        token: state.authReducer.token,
+        contactsLength: state.contactHandlerReducer.contacts.length
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout: () => dispatch(Actions.logout()),
-        removeAll: (token) => dispatch(Actions.removeAll(token))
+        logout: () => dispatch(AuthActions.logout()),
+        removeAll: (token) => dispatch(ContactsHandlerActions.removeAll(token))
     }
 }
 

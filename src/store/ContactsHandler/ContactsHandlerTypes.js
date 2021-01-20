@@ -1,0 +1,9 @@
+export const RM = '[Contact Handler] Remove contact';
+export const ADD = '[Contact Handler] Add contact';
+export const EDIT = '[Contact Handler] Edit Contact';
+export const AE_LOAD = '[Contact Handler] Loading';
+export const AE_SLOAD = '[Contact Handler] Stop loading for Errors';
+export const GET_ALL = '[Contact List] Get all contacts';
+export const RM_ALL = '[Contact List] Remove all contacts';
+export const SUCCESS_ERROR_RESET = '[Contact List] Reset state of Error and Success';
+export const ERROR = '[Contact list] Error'

@@ -1,4 +1,4 @@
-import * as Types from './types';
+import * as ContactListTypes from './ContactListTypes';
 
 const init = {
     contacts: []
@@ -7,7 +7,7 @@ const init = {
 
 export default function contactListReducer(state = init, {type, payload}){
     switch (type){
-        case Types.SHOW_ALL: return {...state, contacts: payload};
+        case ContactListTypes.SHOW_ALL: return {...state, contacts: payload};
         default: return state;
     }
 }

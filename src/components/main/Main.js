@@ -14,8 +14,9 @@ class Main extends React.Component{
                 <Header/>
                 <hr className='app-hr'/>
                 <Switch>
-                    <Route path='/phonebook' exact component={ContactList}/>
+                    <Route path='/' exact component={ContactList}/>
                     <Route path='/list' component={ContactList}/>
+                    <Route path='/phonebook' exact component={ContactList}/>
                     <Route path='/list/detailed/:id' component={DetailedContact}/>
                     <Route path='/addContact/:id/:name/:lastName/:phone/:email/:address/:description' component={AddContact}/>
                     <Route path='/addContact' component={AddContact}/>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as Actions from '../../redux/actions';
+import * as ContactsHandlerActions from '../../store/ContactsHandler/ContactsHandlerActions';
 
 import ContactForm from "../contactForm/ContactForm";
 import Loader from "../loader/Loader";
@@ -54,6 +54,7 @@ class AddContact extends React.Component{
                                     address: contact.address,
                                     description: contact.description
                                 }, this.props)}
+
                         />
                     </div>
                     {this.props.loading ? <Loader/> : null}
@@ -72,8 +73,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addContact: (contact, props) => dispatch(Actions.addContact(contact, props)),
-        editContact: (contact, props) => dispatch(Actions.editContact(contact, props))
+        addContact: (contact, props) => dispatch(ContactsHandlerActions.addContact(contact, props)),
+        editContact: (contact, props) => dispatch(ContactsHandlerActions.editContact(contact, props))
     }
 }
 

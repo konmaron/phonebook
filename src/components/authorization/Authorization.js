@@ -2,8 +2,9 @@ import React from 'react';
 
 import {withRouter} from 'react-router-dom'
 import {connect} from "react-redux";
-import * as Actions from '../../redux/actions';
+import * as AuthActions from '../../store/Auth/AuthActions';
 
+import swal from "sweetalert";
 import classes from './Authorization.module.css';
 
 import view from './img/view.png';
@@ -15,6 +16,15 @@ class Authorization extends React.Component{
         password:'',
         hidden: true,
         hiddenReqs: true
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.error !== this.props.error && this.props.error !== null){
+            swal(this.props.error)
+            return true;
+        }else{
+            return false;
+        }
     }
 
     onChange = event => {
@@ -29,11 +39,7 @@ class Authorization extends React.Component{
     }
 
     seePassReqs = () => {
-        this.setState({hiddenReqs: false});
-    }
-
-    hidePassReqs = () => {
-        this.setState({hiddenReqs: true});
+        this.setState({hiddenReqs: !this.state.hiddenReqs});
     }
 
     render(){
@@ -57,7 +63,7 @@ class Authorization extends React.Component{
                         value={this.state.password}
                         onChange={this.onChange}
                         onFocus={this.seePassReqs}
-                        onBlur={this.hidePassReqs}
+                        onBlur={this.seePassReqs}
                     />
                     {this.state.hidden ?
                         <img src={view} className={classes.eye} onClick={this.toggleShow} alt=''/> :
@@ -79,11 +85,17 @@ class Authorization extends React.Component{
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return{
-        login: (email, password, props) => dispatch(Actions.login(email, password, props)),
-        registration: (email, password, props) => dispatch(Actions.registration(email, password, props))
+const mapStateToProps = state => {
+    return {
+        error: state.authReducer.error
     }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(Authorization));
+const mapDispatchToProps = dispatch => {
+    return{
+        login: (email, password, props) => dispatch(AuthActions.login(email, password, props)),
+        registration: (email, password, props) => dispatch(AuthActions.registration(email, password, props))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Authorization));

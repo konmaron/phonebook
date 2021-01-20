@@ -2,22 +2,41 @@ import React from "react";
 
 import {NavLink, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as Actions from '../../redux/actions';
+import * as ContactHandlerActions from '../../store/ContactsHandler/ContactsHandlerActions';
 
 import DetailedContact from "../detailedContact/DetailedContact";
 import AddContact from "../addContact/AddContact";
 
+import swal from "sweetalert";
 import classes from './ContactList.module.css'
 import Loader from "../loader/Loader";
 
 class ContactList extends React.Component{
     componentDidMount() {
-        this.props.showAll(this.props.token)
+        this.props.getAll(this.props.token)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.errorBool) {
+            swal(`${this.props.errorText}`)
+            return true;
+        }else if(this.props.success
+            && prevProps.contactsLength > this.props.contactsLength
+            && this.props.contactsLength !== 0){
+            swal('Contact successfully removed!');
+            return true;
+        }else if(prevProps.contactsLength < this.props.contactsLength){
+            swal('Contact successfully added!');
+            return true;
+        }else if(prevProps.contacts.length !== this.props.contactsLength) {
+            this.props.getAll(this.props.token)
+        }
     }
 
     render() {
         return (
-            <div className={classes.container}>
+            <>
+                <div className={classes.container}>
                 {this.props.loading ? <Loader/> : null}
                 <div className={classes['contact-list']}>
                     <ul>
@@ -47,21 +66,26 @@ class ContactList extends React.Component{
                     }
                 </div>
             </div>
+            </>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        contacts: state.contactListReducer.contacts,
+        contacts: state.contactHandlerReducer.contacts,
+        contactsLength: state.contactHandlerReducer.contacts.length,
         token: state.authReducer.token,
-        loading: state.contactHandlerReducer.loading
+        loading: state.contactHandlerReducer.loading,
+        success: state.contactHandlerReducer.success,
+        errorBool: !!state.contactHandlerReducer.error,
+        errorText: state.contactHandlerReducer.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        showAll: (token) => dispatch(Actions.showAll(token))
+        getAll: (token) => dispatch(ContactHandlerActions.getAll(token)),
     }
 }
 

@@ -1,11 +1,11 @@
 import {Context} from "./AppContext";
 import React from 'react';
-import Store from '../../services/storage';
+import Store from '../../utils/storage';
 import {withRouter} from 'react-router-dom';
 import classes from "../../components/contactForm/ContactForm.module.css";
 import swal from 'sweetalert';
 
-import Api from "../../services/api";
+import Api from "../../utils/api";
 
 class AppContextProvider extends React.Component{
     state = {
