@@ -22,10 +22,14 @@ class ContactList extends React.Component{
             return true;
         }else if(this.props.success
             && prevProps.contactsLength > this.props.contactsLength
-            && this.props.contactsLength !== 0){
+            && this.props.contactsLength !== 0
+        ){
             swal('Contact successfully removed!');
             return true;
-        }else if(prevProps.contactsLength < this.props.contactsLength){
+        }else if(
+            prevProps.contactsLength < this.props.contactsLength
+            && this.props.contactsLength - prevProps.contactsLength === 1
+        ){
             swal('Contact successfully added!');
             return true;
         }else if(prevProps.contacts.length !== this.props.contactsLength) {

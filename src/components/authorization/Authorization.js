@@ -62,8 +62,8 @@ class Authorization extends React.Component{
                         placeholder="Password"
                         value={this.state.password}
                         onChange={this.onChange}
-                        onFocus={this.seePassReqs}
-                        onBlur={this.seePassReqs}
+                        onMouseEnter={this.seePassReqs}
+                        onMouseLeave={this.seePassReqs}
                     />
                     {this.state.hidden ?
                         <img src={view} className={classes.eye} onClick={this.toggleShow} alt=''/> :
